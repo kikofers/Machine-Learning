@@ -1,57 +1,24 @@
-import tensorflow as tf
-import keras
-from keras.layers import Flatten, Dense, Dropout, Convolution2D, MaxPooling2D
-from keras.utils import to_categorical
-
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.image import imread
-
-from os import listdir
-from numpy import asarray
-from numpy import save
-from keras.preprocessing.image import load_img
-from keras.preprocessing.image import img_to_array
-from numpy import load
-
-# Kods, kas izveido bildes un virsrakstus .npy failos priekš efektīvākas apstrādes.
-"""
-direktorija = 'training_set/'
-bildes, virsraksti = list(), list()
-
-for fails in listdir(direktorija):
-    izvade = 0.0
-    if fails.startswith('dog'):
-        izvade = 1.0
-        bilde = load_img(direktorija + fails, target_size=(200, 200))
-        bilde = img_to_array(bilde)
-        bildes.append(bilde)
-        virsraksti.append(izvade)
-
-bildes = asarray(bildes)
-virsraksti = asarray(virsraksti)
-
-print(bildes.shape, virsraksti.shape)
-
-save('kakis_suns_bildes.npy', bildes)
-save('kakis_suns_virsraksti.npy', virsraksti)
-"""
-
-# Ielādē bildes un virsrakstus no .npy failiem.
-bildes = load('kakis_suns_bildes.npy')
-virsraksti = load('kakis_suns_virsraksti.npy')
-print(bildes.shape, virsraksti.shape)
+from keras.layers import Flatten, Dense, Convolution2D, MaxPooling2D
+from keras.models import Sequential
+from keras.optimizers import SGD
+from keras.preprocessing.image import ImageDataGenerator
 
 # Izveido modeli.
-def izveidot_modeli():
-    
+def izveido_modeli():
+    modelis = Sequential()
+    modelis.add(Convolution2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(200, 200, 3)))
+    modelis.add(MaxPooling2D((2, 2)))
+    modelis.add(Flatten())
+    modelis.add(Dense(128, activation='relu', kernel_initializer='he_uniform'))
+    modelis.add(Dense(1, activation='sigmoid'))
 
-# Izveido blokus modelim.
-model.add(Convolution2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(200, 200, 3)))
-model.add(MaxPooling2D((2, 2)))
+    opt = SGD(lr=0.001, momentum=0.9)
+    modelis.compile(optimizer=opt, loss='binary_crossentropy', metrics=['accuracy'])
+    return modelis
 
-model.add(Convolution2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-model.add(MaxPooling2D((2, 2)))
+modelis = izveido_modeli()
 
-model.add(Convolution2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
-model.add(MaxPooling2D((2, 2)))
+datagen = ImageDataGenerator(rescale=1.0/255.0)
+
+# Iedala datus trenēšanas un testēšanas datu kopās.
+
