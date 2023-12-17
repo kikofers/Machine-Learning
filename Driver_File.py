@@ -12,7 +12,10 @@ from numpy import asarray
 from numpy import save
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
+from numpy import load
 
+# Kods, kas izveido bildes un virsrakstus .npy failos priekš efektīvākas apstrādes.
+"""
 direktorija = 'training_set/'
 bildes, virsraksti = list(), list()
 
@@ -30,17 +33,25 @@ virsraksti = asarray(virsraksti)
 
 print(bildes.shape, virsraksti.shape)
 
-save('kakis_suns.npy', bildes)
-save('kakis_suns.npy', virsraksti)
-
-"""
-# Parādam pirmās 9 bildes. Pārbaudu, vai programma var atrast bildes un direktorija ir korekta.
-for i in range(1, 10):
-    plt.subplot(330 + i)
-    fails = direktorija + 'dog.' + str(i) + '.jpg'
-    bilde = imread(fails)
-    plt.imshow(bilde)
-
-plt.show()
+save('kakis_suns_bildes.npy', bildes)
+save('kakis_suns_virsraksti.npy', virsraksti)
 """
 
+# Ielādē bildes un virsrakstus no .npy failiem.
+bildes = load('kakis_suns_bildes.npy')
+virsraksti = load('kakis_suns_virsraksti.npy')
+print(bildes.shape, virsraksti.shape)
+
+# Izveido modeli.
+def izveidot_modeli():
+    
+
+# Izveido blokus modelim.
+model.add(Convolution2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(200, 200, 3)))
+model.add(MaxPooling2D((2, 2)))
+
+model.add(Convolution2D(64, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+model.add(MaxPooling2D((2, 2)))
+
+model.add(Convolution2D(128, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same'))
+model.add(MaxPooling2D((2, 2)))
