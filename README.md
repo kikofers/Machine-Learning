@@ -1,0 +1,9 @@
+# Kas īsti ir šis repozitorijs:
+Tas ir mans gala projekts Python kursā.
+Šeit es izstrādāšu mākslīgo intelektu, kurš spēs atšķirt kaķu un suņu bildes.
+Es pirmo reizi kaut ko šādu darīšu, taču neskatoties uz to, ka man nav praktiska pieredze dziļā mašīnmācīšanā, es tik un tā ļoti vēlos izstrādāt tādu visai vienkāršu modeli, kurš ir trenēts arī ne uz visai lielu datu kopu.
+
+## Izmantotie dati un faili:
+Ņēmu datu kopu no ........
+.....
+.....
