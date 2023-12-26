@@ -1,13 +1,17 @@
-import sys
-from keras.utils import to_categorical 
+import tensorflow as tf
 from keras.layers import Flatten, Dense, Convolution2D, MaxPooling2D
 from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.preprocessing.image import ImageDataGenerator
 from matplotlib import pyplot
-from scipy import misc
 
-# Izveido modeli.
+# TODO:
+# Pāriet uz GPU, nevis CPU. Jo tā būs ātrāk.
+# https://www.tensorflow.org/guide/gpu
+# Pārbaudīt, vai trenēšana tiek vizualizēta terminālī.
+# Pārbaudīt, vai modelis tiek saglabāts.
+# Uzlabot modeli, jo daudz brīdinājumi tiek izvadīti.
+
 def izveido_modeli():
     modelis = Sequential()
     modelis.add(Convolution2D(32, (3, 3), activation='relu', kernel_initializer='he_uniform', padding='same', input_shape=(200, 200, 3)))
@@ -35,12 +39,16 @@ def secinajums(vesture):
 def testejam():
     modelis = izveido_modeli()
     datagen = ImageDataGenerator(rescale=1.0/255.0)
-    # Iedala datus trenēšanas un testēšanas datu kopās.
+
     trenins = datagen.flow_from_directory("training_set/", class_mode='binary', batch_size=64, target_size=(200, 200))
     tests = datagen.flow_from_directory("test_set/", class_mode='binary', batch_size=64, target_size=(200, 200))
     vesture = modelis.fit(trenins, steps_per_epoch=len(trenins), validation_data=tests, validation_steps=len(tests), epochs=20, verbose=0)
     _, acc = modelis.evaluate_generator(tests, steps=len(tests), verbose=0)
     print('> %.3f' % (acc * 100.0))
     secinajums(vesture)
+    modelis.summary()
 
+    modelis_fails = "cat_dog_classifier.h5"
+    modelis.save(modelis_fails)
+    
 testejam()
