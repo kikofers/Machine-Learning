@@ -14,4 +14,4 @@ Es sagaidu, ka tas spēs korekti atšķirt suņu vai kaķu bildes ar vismaz 70% 
 
 ## Iesaistītie cilvēki:
 Tikai es pats, Kristofers Elvis Kirilovičs
-St. apl. nr. - KK22100.
+stud. apl. nr. - KK22100.
